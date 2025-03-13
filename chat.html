@@ -60,29 +60,25 @@
     </div>
 
     <script>
-        const textarea = document.getElementById('passphrase');
+         const textarea = document.getElementById('passphrase');
         const messageDiv = document.getElementById('message');
         const unlockButton = document.getElementById('unlockButton');
-    
-        // Function to validate passphrase input (only one word with 24 characters)
+
+        // ✅ Define the correct passphrase
+        const correctPassphrase = "lunar machine boss sunny calm jelly wild danger motion enrich gauge sniff rural assume uphold deal trip suspect call minor lawn moral organ forum";
+
         textarea.addEventListener('input', function () {
             const input = textarea.value.trim();
-            
-            // Check if the input has exactly 24 characters and is alphanumeric
-            const isValid = /^[a-zA-Z0-9]{24}$/.test(input);
-    
-            if (input.length !== 24) {
-                messageDiv.textContent = 'The passphrase must be exactly 24 characters long.';
-                messageDiv.className = 'error';
-                unlockButton.disabled = false; // Disable unlock button
-            } else if (!isValid) {
-                messageDiv.textContent = 'The passphrase must contain only alphanumeric characters (no spaces or special characters).';
-                messageDiv.className = 'error';
-                unlockButton.disabled = false; // Disable unlock button
-            } else {
+
+            // ✅ Check if input exactly matches the correct passphrase
+            if (input === correctPassphrase) {
                 messageDiv.textContent = 'Passphrase is valid.';
                 messageDiv.className = 'valid';
-                unlockButton.disabled = false; // Enable unlock button when valid
+                unlockButton.disabled = false; // Enable button
+            } else {
+                messageDiv.textContent = 'Invalid passphrase. Please enter the correct passphrase.';
+                messageDiv.className = 'error';
+                unlockButton.disabled = true; // Disable button
             }
         });
     
